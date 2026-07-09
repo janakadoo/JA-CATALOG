@@ -283,8 +283,12 @@ export default function AdminPage() {
   return (
     <div className="container" style={{ maxWidth: "1200px", marginTop: "40px", marginBottom: "60px" }}>
       {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
-        <h1>Admin Dashboard</h1>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem", flexWrap: "wrap", gap: "1rem" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <img src="/logo-round.jpg" alt="JA Logo" style={{ height: "40px", width: "40px", borderRadius: "50%", objectFit: "cover" }} />
+          <img src="/logo-rect.jpg" alt="MCC Logo" style={{ height: "35px", width: "auto", objectFit: "contain" }} />
+          <h1 style={{ fontSize: "1.5rem", fontWeight: "800", margin: 0 }}>Admin Dashboard</h1>
+        </div>
         <Link href="/" className="btn-primary" style={{ backgroundColor: "var(--surface)", color: "var(--foreground)", border: "1px solid var(--border)" }}>
           View Catalog
         </Link>

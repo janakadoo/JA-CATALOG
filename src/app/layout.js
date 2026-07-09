@@ -1,7 +1,7 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Premium Product Catalog",
+  title: "MCC Product Catalog",
   description: "Browse our exclusive collection of products.",
 };
 

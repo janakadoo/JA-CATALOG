@@ -70,8 +70,11 @@ export default function Home() {
         top: 0,
         zIndex: 10
       }}>
-        <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <h1 style={{ fontSize: "1.5rem", fontWeight: "700", color: "var(--primary)" }}>StoreFront</h1>
+        <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <img src="/logo-round.jpg" alt="JA Logo" style={{ height: "40px", width: "40px", borderRadius: "50%", objectFit: "cover" }} />
+            <img src="/logo-rect.jpg" alt="MCC Logo" style={{ height: "35px", width: "auto", objectFit: "contain" }} />
+            <h1 style={{ fontSize: "1.25rem", fontWeight: "800", color: "var(--primary)", margin: 0, textTransform: "uppercase" }}>MCC Product Catalog</h1>
           <Link href="/admin" style={{ fontSize: "0.875rem", color: "var(--foreground)", opacity: 0.6, textDecoration: "none" }}>
             Admin Login
           </Link>
