@@ -14,6 +14,7 @@ export default function AdminPage() {
   const [newSubCategory, setNewSubCategory] = useState("");
   const [selectedMainCatForSub, setSelectedMainCatForSub] = useState("");
   const [catMessage, setCatMessage] = useState("");
+  const [editState, setEditState] = useState({ type: null, mainName: '', oldName: '', newName: '' });
 
   // Product form state
   const [selectedMainCategory, setSelectedMainCategory] = useState("");
@@ -231,6 +232,36 @@ export default function AdminPage() {
         setCatMessage("Subcategory deleted!");
       } else {
         setCatMessage(data.error || "Failed to delete subcategory");
+      }
+    } catch (error) {
+      setCatMessage("An error occurred");
+    }
+  };
+
+  const handleEditCategory = async (e) => {
+    e.preventDefault();
+    setCatMessage("");
+    try {
+      const action = editState.type === 'main' ? 'editMainCategory' : 'editSubCategory';
+      const body = {
+        action,
+        oldName: editState.oldName,
+        newName: editState.newName,
+        mainCategory: editState.mainName
+      };
+
+      const res = await fetch("/api/categories", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setCategories(data.categories);
+        setEditState({ type: null, mainName: '', oldName: '', newName: '' });
+        setCatMessage(editState.type === 'main' ? "Main category renamed!" : "Subcategory renamed!");
+      } else {
+        setCatMessage(data.error || "Failed to rename category");
       }
     } catch (error) {
       setCatMessage("An error occurred");
@@ -526,15 +557,41 @@ export default function AdminPage() {
               {categories.map((cat, i) => (
                 <div key={i} style={{ backgroundColor: "var(--surface)", border: "1px solid var(--border)", borderRadius: "var(--radius)", overflow: "hidden" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.75rem 1rem", backgroundColor: "rgba(0,0,0,0.02)", borderBottom: cat.subCategories.length > 0 ? "1px solid var(--border)" : "none" }}>
-                    <strong>{cat.name}</strong>
-                    <button onClick={() => handleDeleteMainCategory(cat.name)} style={{ color: "#ef4444", fontSize: "0.875rem", fontWeight: "bold" }}>Delete</button>
+                    {editState.type === 'main' && editState.oldName === cat.name ? (
+                      <form onSubmit={handleEditCategory} style={{ display: "flex", gap: "0.5rem", flex: 1, marginRight: "1rem" }}>
+                        <input type="text" className="input-field" value={editState.newName} onChange={e => setEditState({...editState, newName: e.target.value})} style={{ padding: "0.25rem 0.5rem", flex: 1 }} autoFocus required />
+                        <button type="submit" className="btn-primary" style={{ padding: "0.25rem 0.75rem", fontSize: "0.875rem" }}>Save</button>
+                        <button type="button" onClick={() => setEditState({ type: null, mainName: '', oldName: '', newName: '' })} style={{ padding: "0.25rem 0.75rem", fontSize: "0.875rem", backgroundColor: "transparent", border: "1px solid var(--border)", borderRadius: "var(--radius)" }}>Cancel</button>
+                      </form>
+                    ) : (
+                      <>
+                        <strong style={{ flex: 1, wordBreak: "break-word" }}>{cat.name}</strong>
+                        <div style={{ display: "flex", gap: "0.5rem" }}>
+                          <button onClick={() => setEditState({ type: 'main', mainName: '', oldName: cat.name, newName: cat.name })} style={{ color: "var(--primary)", fontSize: "0.875rem", fontWeight: "bold" }}>Edit</button>
+                          <button onClick={() => handleDeleteMainCategory(cat.name)} style={{ color: "#ef4444", fontSize: "0.875rem", fontWeight: "bold" }}>Delete</button>
+                        </div>
+                      </>
+                    )}
                   </div>
                   {cat.subCategories.length > 0 && (
                     <ul style={{ listStyle: "none", padding: "0", margin: "0" }}>
                       {cat.subCategories.map((sub, j) => (
                         <li key={j} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.5rem 1rem 0.5rem 2rem", borderTop: j > 0 ? "1px solid var(--border)" : "none" }}>
-                          <span style={{ fontSize: "0.9rem" }}>{sub}</span>
-                          <button onClick={() => handleDeleteSubCategory(cat.name, sub)} style={{ color: "#ef4444", fontSize: "0.75rem", fontWeight: "bold" }}>Del</button>
+                          {editState.type === 'sub' && editState.mainName === cat.name && editState.oldName === sub ? (
+                            <form onSubmit={handleEditCategory} style={{ display: "flex", gap: "0.5rem", flex: 1, marginRight: "1rem" }}>
+                              <input type="text" className="input-field" value={editState.newName} onChange={e => setEditState({...editState, newName: e.target.value})} style={{ padding: "0.25rem 0.5rem", flex: 1 }} autoFocus required />
+                              <button type="submit" className="btn-primary" style={{ padding: "0.25rem 0.75rem", fontSize: "0.875rem" }}>Save</button>
+                              <button type="button" onClick={() => setEditState({ type: null, mainName: '', oldName: '', newName: '' })} style={{ padding: "0.25rem 0.75rem", fontSize: "0.875rem", backgroundColor: "transparent", border: "1px solid var(--border)", borderRadius: "var(--radius)" }}>Cancel</button>
+                            </form>
+                          ) : (
+                            <>
+                              <span style={{ fontSize: "0.9rem", flex: 1, wordBreak: "break-word" }}>{sub}</span>
+                              <div style={{ display: "flex", gap: "0.5rem" }}>
+                                <button onClick={() => setEditState({ type: 'sub', mainName: cat.name, oldName: sub, newName: sub })} style={{ color: "var(--primary)", fontSize: "0.75rem", fontWeight: "bold" }}>Edit</button>
+                                <button onClick={() => handleDeleteSubCategory(cat.name, sub)} style={{ color: "#ef4444", fontSize: "0.75rem", fontWeight: "bold" }}>Delete</button>
+                              </div>
+                            </>
+                          )}
                         </li>
                       ))}
                     </ul>
