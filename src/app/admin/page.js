@@ -26,6 +26,8 @@ export default function AdminPage() {
 
   // Image upload for existing product
   const [uploadingImageFor, setUploadingImageFor] = useState(null); // product id
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [editProductData, setEditProductData] = useState({});
   const [imageFile, setImageFile] = useState(null);
   const [modalImage, setModalImage] = useState(null);
   const [imageUploadMsg, setImageUploadMsg] = useState("");
@@ -106,6 +108,36 @@ export default function AdminPage() {
         fetchProducts();
       } else {
         setMessage(data.error || "Failed to add product");
+      }
+    } catch (error) {
+      setMessage("An error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSaveProductEdit = async (productId) => {
+    setLoading(true);
+    setMessage("");
+    try {
+      const formData = new FormData();
+      if (editProductData.name) formData.append("name", editProductData.name);
+      if (editProductData.category) formData.append("category", editProductData.category);
+      if (editProductData.subCategory !== undefined) formData.append("subCategory", editProductData.subCategory);
+      if (editProductData.price !== undefined) formData.append("price", editProductData.price);
+      if (editProductData.description !== undefined) formData.append("description", editProductData.description);
+
+      const res = await fetch(`/api/products/${productId}`, {
+        method: "PATCH",
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setProducts((prev) => prev.map((p) => (p.id === productId ? { ...p, ...editProductData } : p)));
+        setEditingProduct(null);
+        setEditProductData({});
+      } else {
+        setMessage(data.error || "Failed to update product");
       }
     } catch (error) {
       setMessage("An error occurred");
@@ -206,6 +238,7 @@ export default function AdminPage() {
   };
 
   const handleDeleteMainCategory = async (category) => {
+    if (!confirm("Are you sure you want to delete this main category?")) return;
     setCatMessage("");
     try {
       const res = await fetch(`/api/categories?mainCategory=${encodeURIComponent(category)}`, { method: "DELETE" });
@@ -223,6 +256,7 @@ export default function AdminPage() {
   };
 
   const handleDeleteSubCategory = async (mainCategory, subCategory) => {
+    if (!confirm("Are you sure you want to delete this subcategory?")) return;
     setCatMessage("");
     try {
       const res = await fetch(`/api/categories?mainCategory=${encodeURIComponent(mainCategory)}&subCategory=${encodeURIComponent(subCategory)}`, { method: "DELETE" });
@@ -428,11 +462,33 @@ export default function AdminPage() {
                   </div>
 
                   {/* Product Info */}
-                  <h3 style={{ fontSize: "1rem", fontWeight: "600", marginBottom: "0.4rem" }}>{product.name}</h3>
-                  <p style={{ fontSize: "0.8rem", opacity: 0.6, marginBottom: "0.25rem" }}>
-                    {product.category}{product.subCategory ? ` › ${product.subCategory}` : ""}
-                  </p>
-                  {product.price && <p style={{ fontSize: "0.9rem", fontWeight: "600", color: "var(--primary)", marginBottom: "0.75rem" }}>{product.price}</p>}
+                  {editingProduct === product.id ? (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginBottom: "1rem" }}>
+                      <input type="text" className="input-field" value={editProductData.name || ""} onChange={(e) => setEditProductData({...editProductData, name: e.target.value})} placeholder="Product Name" style={{ padding: "0.4rem", fontSize: "0.9rem" }} />
+                      <select className="input-field" value={editProductData.category || ""} onChange={(e) => setEditProductData({...editProductData, category: e.target.value, subCategory: ""})} style={{ padding: "0.4rem", fontSize: "0.9rem" }}>
+                        <option value="">Select Category...</option>
+                        {categories.map((c, i) => <option key={i} value={c.name}>{c.name}</option>)}
+                      </select>
+                      <select className="input-field" value={editProductData.subCategory || ""} onChange={(e) => setEditProductData({...editProductData, subCategory: e.target.value})} style={{ padding: "0.4rem", fontSize: "0.9rem" }}>
+                        <option value="">Select Subcategory...</option>
+                        {editProductData.category && categories.find(c => c.name === editProductData.category)?.subCategories.map((s, i) => <option key={i} value={s}>{s}</option>)}
+                      </select>
+                      <input type="text" className="input-field" value={editProductData.price || ""} onChange={(e) => setEditProductData({...editProductData, price: e.target.value})} placeholder="Price" style={{ padding: "0.4rem", fontSize: "0.9rem" }} />
+                      <textarea className="input-field" value={editProductData.description || ""} onChange={(e) => setEditProductData({...editProductData, description: e.target.value})} placeholder="Description" style={{ padding: "0.4rem", fontSize: "0.9rem", minHeight: "60px" }} />
+                      <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
+                        <button className="btn-primary" style={{ flex: 1, padding: "0.4rem", fontSize: "0.8rem" }} onClick={() => handleSaveProductEdit(product.id)} disabled={loading}>{loading ? "Saving..." : "Save"}</button>
+                        <button style={{ padding: "0.4rem 0.75rem", fontSize: "0.8rem", borderRadius: "var(--radius)", border: "1px solid var(--border)", backgroundColor: "transparent" }} onClick={() => { setEditingProduct(null); setEditProductData({}); }}>Cancel</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <h3 style={{ fontSize: "1rem", fontWeight: "600", marginBottom: "0.4rem" }}>{product.name}</h3>
+                      <p style={{ fontSize: "0.8rem", opacity: 0.6, marginBottom: "0.25rem" }}>
+                        {product.category}{product.subCategory ? ` › ${product.subCategory}` : ""}
+                      </p>
+                      {product.price && <p style={{ fontSize: "0.9rem", fontWeight: "600", color: "var(--primary)", marginBottom: "0.75rem" }}>{product.price}</p>}
+                    </>
+                  )}
 
                   {/* Badges */}
                   {!product.imageUrl && (
@@ -481,6 +537,12 @@ export default function AdminPage() {
                         onClick={() => { setUploadingImageFor(product.id); setImageFile(null); setImageUploadMsg(""); }}
                       >
                         {product.imageUrl ? "🔄 Change Image" : "📷 Add Image"}
+                      </button>
+                      <button
+                        style={{ padding: "0.5rem 0.75rem", fontSize: "0.8rem", borderRadius: "var(--radius)", border: "1px solid var(--border)", cursor: "pointer", backgroundColor: "transparent" }}
+                        onClick={() => { setEditingProduct(product.id); setEditProductData({ name: product.name, category: product.category, subCategory: product.subCategory || "", price: product.price || "", description: product.description || "" }); }}
+                      >
+                        ✏️
                       </button>
                       <button
                         style={{ padding: "0.5rem 0.75rem", fontSize: "0.8rem", borderRadius: "var(--radius)", border: "1px solid #ef4444", color: "#ef4444", cursor: "pointer", backgroundColor: "transparent" }}
