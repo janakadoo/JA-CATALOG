@@ -53,7 +53,10 @@ export default function AdminPage() {
     try {
       const res = await fetch("/api/products");
       const data = await res.json();
-      if (res.ok) setProducts(data);
+      if (res.ok) {
+        const sortedData = data.sort((a, b) => a.name.localeCompare(b.name));
+        setProducts(sortedData);
+      }
     } catch (error) {
       console.error("Failed to fetch products", error);
     } finally {
