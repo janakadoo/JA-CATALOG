@@ -1,0 +1,62 @@
+[
+  {
+    "name": "🏍️ Engine Parts",
+    "subCategories": ["Piston", "Piston Rings", "Cylinder Kit", "Crankshaft", "Camshaft", "Valves", "Timing Chain", "Gaskets", "Oil Pump", "Clutch Assembly"]
+  },
+  {
+    "name": "⚙️ Transmission Parts",
+    "subCategories": ["Clutch Plates", "Clutch Cable", "Gear Set", "Gear Shift Lever", "Sprocket", "Chain", "Chain Tensioner"]
+  },
+  {
+    "name": "🛞 Wheels & Tyres",
+    "subCategories": ["Tyres", "Tubes", "Alloy Wheels", "Rims", "Wheel Hub", "Wheel Bearings", "Spokes", "Rim Tape"]
+  },
+  {
+    "name": "🛑 Brake System",
+    "subCategories": ["Brake Shoes", "Brake Pads", "Brake Disc", "Brake Drum", "Brake Caliper", "Brake Master Cylinder", "Brake Cable", "Brake Hose", "Brake Fluid Reservoir"]
+  },
+  {
+    "name": "🛠️ Suspension & Steering",
+    "subCategories": ["Front Fork", "Rear Shock Absorber", "Steering Cone Set", "Triple Tree", "Swing Arm", "Bushes"]
+  },
+  {
+    "name": "⚡ Electrical Parts",
+    "subCategories": ["Battery", "CDI Unit", "ECU", "Ignition Coil", "Spark Plug", "Magnet Coil (Stator)", "Regulator Rectifier", "Starter Motor", "Starter Relay", "Horn", "Fuse", "Wiring Harness"]
+  },
+  {
+    "name": "💡 Lighting",
+    "subCategories": ["Headlight", "Tail Light", "Indicator Light", "Bulbs", "LED Lights", "Number Plate Light"]
+  },
+  {
+    "name": "🪑 Body Parts",
+    "subCategories": ["Fuel Tank", "Side Covers", "Front Fender", "Rear Fender", "Mudguard", "Seat", "Side Panels", "Chain Cover"]
+  },
+  {
+    "name": "🏍️ Handle & Controls",
+    "subCategories": ["Handlebar", "Hand Grips", "Mirrors", "Throttle Cable", "Clutch Lever", "Brake Lever", "Switch Assembly", "Accelerator Grip"]
+  },
+  {
+    "name": "⛽ Fuel System",
+    "subCategories": ["Carburetor", "Fuel Injector", "Fuel Pump", "Fuel Filter", "Fuel Cock", "Fuel Hose", "Air Filter", "Air Filter Box"]
+  },
+  {
+    "name": "🌬️ Exhaust System",
+    "subCategories": ["Exhaust Pipe", "Silencer", "Muffler", "Exhaust Gasket", "Heat Shield"]
+  },
+  {
+    "name": "🧴 Lubrication & Fluids",
+    "subCategories": ["Engine Oil", "Gear Oil", "Brake Fluid", "Coolant (for liquid-cooled motorcycles)"]
+  },
+  {
+    "name": "🔩 Fasteners & Hardware",
+    "subCategories": ["Bolts", "Nuts", "Washers", "Clips", "Cotter Pins", "Rubber Mounts"]
+  },
+  {
+    "name": "🧰 Accessories",
+    "subCategories": ["Crash Guard", "Carrier", "Top Box", "Mobile Holder", "Seat Cover", "Leg Guard", "Windshield", "Footrest"]
+  },
+  {
+    "name": "🔧 Service & Maintenance Items",
+    "subCategories": ["Oil Filter", "Air Filter", "Fuel Filter", "Spark Plug", "Chain Lubricant", "Cleaning Products", "Tool Kit"]
+  }
+]
