@@ -13,16 +13,28 @@ export default function AdminPage() {
   const [newMainCategory, setNewMainCategory] = useState("");
   const [newSubCategory, setNewSubCategory] = useState("");
   const [selectedMainCatForSub, setSelectedMainCatForSub] = useState("");
-  
   const [catMessage, setCatMessage] = useState("");
 
-  // Form State for Add Product
+  // Product form state
   const [selectedMainCategory, setSelectedMainCategory] = useState("");
   const [availableSubCategories, setAvailableSubCategories] = useState([]);
+
+  // Products list state
+  const [products, setProducts] = useState([]);
+  const [productsLoading, setProductsLoading] = useState(false);
+
+  // Image upload for existing product
+  const [uploadingImageFor, setUploadingImageFor] = useState(null); // product id
+  const [imageFile, setImageFile] = useState(null);
+  const [imageUploadMsg, setImageUploadMsg] = useState("");
+
+  // Active tab
+  const [activeTab, setActiveTab] = useState("add"); // "add" | "manage" | "categories"
 
   useEffect(() => {
     if (isAuthenticated) {
       fetchCategories();
+      fetchProducts();
     }
   }, [isAuthenticated]);
 
@@ -33,6 +45,19 @@ export default function AdminPage() {
       if (res.ok) setCategories(data);
     } catch (error) {
       console.error("Failed to fetch categories", error);
+    }
+  };
+
+  const fetchProducts = async () => {
+    setProductsLoading(true);
+    try {
+      const res = await fetch("/api/products");
+      const data = await res.json();
+      if (res.ok) setProducts(data);
+    } catch (error) {
+      console.error("Failed to fetch products", error);
+    } finally {
+      setProductsLoading(false);
     }
   };
 
@@ -49,7 +74,7 @@ export default function AdminPage() {
   const handleMainCategoryChange = (e) => {
     const mainCat = e.target.value;
     setSelectedMainCategory(mainCat);
-    const catObj = categories.find(c => c.name === mainCat);
+    const catObj = categories.find((c) => c.name === mainCat);
     setAvailableSubCategories(catObj ? catObj.subCategories : []);
   };
 
@@ -73,11 +98,55 @@ export default function AdminPage() {
         e.target.reset();
         setSelectedMainCategory("");
         setAvailableSubCategories([]);
+        fetchProducts();
       } else {
         setMessage(data.error || "Failed to add product");
       }
     } catch (error) {
       setMessage("An error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteProduct = async (productId) => {
+    if (!confirm("Are you sure you want to delete this product?")) return;
+    try {
+      const res = await fetch(`/api/products/${productId}`, { method: "DELETE" });
+      if (res.ok) {
+        setProducts((prev) => prev.filter((p) => p.id !== productId));
+      }
+    } catch (error) {
+      console.error("Delete failed", error);
+    }
+  };
+
+  const handleUploadImage = async (productId) => {
+    if (!imageFile) {
+      setImageUploadMsg("Please select an image first.");
+      return;
+    }
+    setLoading(true);
+    setImageUploadMsg("");
+    const formData = new FormData();
+    formData.append("image", imageFile);
+
+    try {
+      const res = await fetch(`/api/products/${productId}`, {
+        method: "PATCH",
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setImageUploadMsg("Image uploaded successfully!");
+        setUploadingImageFor(null);
+        setImageFile(null);
+        fetchProducts();
+      } else {
+        setImageUploadMsg(data.error || "Failed to upload image.");
+      }
+    } catch (error) {
+      setImageUploadMsg("An error occurred.");
     } finally {
       setLoading(false);
     }
@@ -164,6 +233,19 @@ export default function AdminPage() {
     }
   };
 
+  const tabStyle = (tab) => ({
+    padding: "0.6rem 1.4rem",
+    borderRadius: "var(--radius)",
+    fontWeight: "600",
+    fontSize: "0.9rem",
+    cursor: "pointer",
+    border: "none",
+    transition: "all 0.2s",
+    backgroundColor: activeTab === tab ? "var(--primary)" : "var(--surface)",
+    color: activeTab === tab ? "#fff" : "var(--foreground)",
+    boxShadow: activeTab === tab ? "0 2px 8px rgba(0,0,0,0.15)" : "none",
+  });
+
   if (!isAuthenticated) {
     return (
       <div className="container" style={{ maxWidth: "400px", marginTop: "100px" }}>
@@ -195,7 +277,8 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="container" style={{ maxWidth: "1200px", marginTop: "40px", marginBottom: "40px" }}>
+    <div className="container" style={{ maxWidth: "1200px", marginTop: "40px", marginBottom: "60px" }}>
+      {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
         <h1>Admin Dashboard</h1>
         <Link href="/" className="btn-primary" style={{ backgroundColor: "var(--surface)", color: "var(--foreground)", border: "1px solid var(--border)" }}>
@@ -203,18 +286,25 @@ export default function AdminPage() {
         </Link>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }}>
-        {/* Add Product Section */}
-        <div className="card" style={{ padding: "2rem" }}>
+      {/* Tabs */}
+      <div style={{ display: "flex", gap: "0.75rem", marginBottom: "2rem", flexWrap: "wrap" }}>
+        <button style={tabStyle("add")} onClick={() => setActiveTab("add")}>➕ Add Product</button>
+        <button style={tabStyle("manage")} onClick={() => { setActiveTab("manage"); fetchProducts(); }}>📦 Manage Products</button>
+        <button style={tabStyle("categories")} onClick={() => setActiveTab("categories")}>🗂 Categories</button>
+      </div>
+
+      {/* ========== ADD PRODUCT TAB ========== */}
+      {activeTab === "add" && (
+        <div className="card" style={{ padding: "2rem", maxWidth: "600px" }}>
           <h2 style={{ marginBottom: "1.5rem" }}>Add New Product</h2>
           <form onSubmit={handleSubmitProduct} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
             <div>
-              <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "500" }}>Product Name</label>
+              <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "500" }}>Product Name *</label>
               <input type="text" name="name" className="input-field" required placeholder="e.g. Premium Wireless Headphones" />
             </div>
 
             <div>
-              <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "500" }}>Main Category</label>
+              <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "500" }}>Main Category *</label>
               <select name="category" className="input-field" required value={selectedMainCategory} onChange={handleMainCategoryChange}>
                 <option value="">Select main category</option>
                 {categories.map((cat, i) => (
@@ -244,8 +334,11 @@ export default function AdminPage() {
             </div>
 
             <div>
-              <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "500" }}>Product Image</label>
-              <input type="file" name="image" accept="image/*" className="input-field" required style={{ padding: "0.5rem" }} />
+              <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "500" }}>Product Image (optional)</label>
+              <input type="file" name="image" accept="image/*" className="input-field" style={{ padding: "0.5rem" }} />
+              <p style={{ fontSize: "0.8rem", opacity: 0.6, marginTop: "0.25rem" }}>
+                You can skip the image now and add it later from "Manage Products".
+              </p>
             </div>
 
             {message && (
@@ -254,16 +347,117 @@ export default function AdminPage() {
               </div>
             )}
 
-            <button type="submit" className="btn-primary" disabled={loading} style={{ marginTop: "1rem", padding: "1rem" }}>
+            <button type="submit" className="btn-primary" disabled={loading} style={{ marginTop: "0.5rem", padding: "1rem" }}>
               {loading ? "Adding Product..." : "Add Product"}
             </button>
           </form>
         </div>
+      )}
 
-        {/* Manage Categories Section */}
-        <div className="card" style={{ padding: "2rem", height: "fit-content" }}>
+      {/* ========== MANAGE PRODUCTS TAB ========== */}
+      {activeTab === "manage" && (
+        <div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+            <h2>All Products ({products.length})</h2>
+            <button className="btn-primary" onClick={fetchProducts} style={{ fontSize: "0.85rem", padding: "0.5rem 1rem" }}>
+              🔄 Refresh
+            </button>
+          </div>
+
+          {productsLoading ? (
+            <p style={{ opacity: 0.5 }}>Loading products...</p>
+          ) : products.length === 0 ? (
+            <div className="card" style={{ padding: "3rem", textAlign: "center", opacity: 0.5 }}>
+              No products found. Add some from the "Add Product" tab.
+            </div>
+          ) : (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "1.25rem" }}>
+              {products.map((product) => (
+                <div key={product.id} className="card" style={{ padding: "1.25rem", position: "relative" }}>
+                  {/* Product Image */}
+                  <div style={{ width: "100%", height: "160px", backgroundColor: "var(--surface)", borderRadius: "var(--radius)", marginBottom: "1rem", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    {product.imageUrl ? (
+                      <img src={product.imageUrl} alt={product.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    ) : (
+                      <span style={{ opacity: 0.3, fontSize: "2.5rem" }}>📷</span>
+                    )}
+                  </div>
+
+                  {/* Product Info */}
+                  <h3 style={{ fontSize: "1rem", fontWeight: "600", marginBottom: "0.4rem" }}>{product.name}</h3>
+                  <p style={{ fontSize: "0.8rem", opacity: 0.6, marginBottom: "0.25rem" }}>
+                    {product.category}{product.subCategory ? ` › ${product.subCategory}` : ""}
+                  </p>
+                  {product.price && <p style={{ fontSize: "0.9rem", fontWeight: "600", color: "var(--primary)", marginBottom: "0.75rem" }}>{product.price}</p>}
+
+                  {/* Badges */}
+                  {!product.imageUrl && (
+                    <span style={{ display: "inline-block", fontSize: "0.7rem", backgroundColor: "rgba(234,179,8,0.15)", color: "#b45309", padding: "0.2rem 0.5rem", borderRadius: "999px", marginBottom: "0.75rem", fontWeight: "600" }}>
+                      No Image
+                    </span>
+                  )}
+
+                  {/* Upload Image Section */}
+                  {uploadingImageFor === product.id ? (
+                    <div style={{ marginTop: "0.75rem", borderTop: "1px solid var(--border)", paddingTop: "0.75rem" }}>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="input-field"
+                        style={{ padding: "0.4rem", fontSize: "0.8rem", marginBottom: "0.5rem" }}
+                        onChange={(e) => setImageFile(e.target.files[0])}
+                      />
+                      {imageUploadMsg && (
+                        <p style={{ fontSize: "0.8rem", color: imageUploadMsg.includes("success") ? "#15803d" : "#b91c1c", marginBottom: "0.5rem" }}>
+                          {imageUploadMsg}
+                        </p>
+                      )}
+                      <div style={{ display: "flex", gap: "0.5rem" }}>
+                        <button
+                          className="btn-primary"
+                          style={{ flex: 1, fontSize: "0.8rem", padding: "0.5rem" }}
+                          onClick={() => handleUploadImage(product.id)}
+                          disabled={loading}
+                        >
+                          {loading ? "Uploading..." : "Upload"}
+                        </button>
+                        <button
+                          style={{ padding: "0.5rem 0.75rem", fontSize: "0.8rem", borderRadius: "var(--radius)", border: "1px solid var(--border)", cursor: "pointer", backgroundColor: "var(--surface)" }}
+                          onClick={() => { setUploadingImageFor(null); setImageFile(null); setImageUploadMsg(""); }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.75rem", borderTop: "1px solid var(--border)", paddingTop: "0.75rem" }}>
+                      <button
+                        className="btn-primary"
+                        style={{ flex: 1, fontSize: "0.8rem", padding: "0.5rem" }}
+                        onClick={() => { setUploadingImageFor(product.id); setImageFile(null); setImageUploadMsg(""); }}
+                      >
+                        {product.imageUrl ? "🔄 Change Image" : "📷 Add Image"}
+                      </button>
+                      <button
+                        style={{ padding: "0.5rem 0.75rem", fontSize: "0.8rem", borderRadius: "var(--radius)", border: "1px solid #ef4444", color: "#ef4444", cursor: "pointer", backgroundColor: "transparent" }}
+                        onClick={() => handleDeleteProduct(product.id)}
+                      >
+                        🗑
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ========== CATEGORIES TAB ========== */}
+      {activeTab === "categories" && (
+        <div className="card" style={{ padding: "2rem", maxWidth: "600px" }}>
           <h2 style={{ marginBottom: "1.5rem" }}>Manage Categories</h2>
-          
+
           {catMessage && (
             <div style={{ marginBottom: "1.5rem", padding: "0.75rem", borderRadius: "var(--radius)", backgroundColor: catMessage.includes("added") || catMessage.includes("deleted") ? "rgba(34, 197, 94, 0.1)" : "rgba(239, 68, 68, 0.1)", color: catMessage.includes("added") || catMessage.includes("deleted") ? "#15803d" : "#b91c1c", fontSize: "0.875rem" }}>
               {catMessage}
@@ -273,23 +467,23 @@ export default function AdminPage() {
           <div style={{ marginBottom: "2rem", paddingBottom: "1.5rem", borderBottom: "1px solid var(--border)" }}>
             <h3 style={{ fontSize: "1.1rem", marginBottom: "1rem" }}>Add Main Category</h3>
             <form onSubmit={handleAddMainCategory} style={{ display: "flex", gap: "0.5rem" }}>
-              <input 
-                type="text" 
-                className="input-field" 
-                placeholder="New main category" 
+              <input
+                type="text"
+                className="input-field"
+                placeholder="New main category"
                 value={newMainCategory}
                 onChange={(e) => setNewMainCategory(e.target.value)}
-                required 
+                required
               />
               <button type="submit" className="btn-primary">Add</button>
             </form>
           </div>
 
-          <div style={{ marginBottom: "2rem" }}>
+          <div style={{ marginBottom: "2rem", paddingBottom: "1.5rem", borderBottom: "1px solid var(--border)" }}>
             <h3 style={{ fontSize: "1.1rem", marginBottom: "1rem" }}>Add Subcategory</h3>
             <form onSubmit={handleAddSubCategory} style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-              <select 
-                className="input-field" 
+              <select
+                className="input-field"
                 value={selectedMainCatForSub}
                 onChange={(e) => setSelectedMainCatForSub(e.target.value)}
                 required
@@ -300,13 +494,13 @@ export default function AdminPage() {
                 ))}
               </select>
               <div style={{ display: "flex", gap: "0.5rem" }}>
-                <input 
-                  type="text" 
-                  className="input-field" 
-                  placeholder="New subcategory" 
+                <input
+                  type="text"
+                  className="input-field"
+                  placeholder="New subcategory"
                   value={newSubCategory}
                   onChange={(e) => setNewSubCategory(e.target.value)}
-                  required 
+                  required
                 />
                 <button type="submit" className="btn-primary">Add</button>
               </div>
@@ -314,7 +508,7 @@ export default function AdminPage() {
           </div>
 
           <div>
-            <h3 style={{ fontSize: "1.1rem", marginBottom: "1rem" }}>Existing Categories structure</h3>
+            <h3 style={{ fontSize: "1.1rem", marginBottom: "1rem" }}>Existing Categories</h3>
             <div style={{ display: "flex", flexDirection: "column", gap: "1rem", maxHeight: "400px", overflowY: "auto", paddingRight: "0.5rem" }}>
               {categories.map((cat, i) => (
                 <div key={i} style={{ backgroundColor: "var(--surface)", border: "1px solid var(--border)", borderRadius: "var(--radius)", overflow: "hidden" }}>
@@ -340,7 +534,7 @@ export default function AdminPage() {
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

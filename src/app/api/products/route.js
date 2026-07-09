@@ -39,27 +39,30 @@ export async function POST(request) {
     const description = formData.get('description');
     const imageFile = formData.get('image');
 
-    if (!name || !category || !imageFile) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    if (!name || !category) {
+      return NextResponse.json({ error: 'Name and category are required' }, { status: 400 });
     }
 
-    // Convert file to buffer
-    const bytes = await imageFile.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    let imageUrl = '';
 
-    // Upload to Cloudinary using a stream
-    const uploadResult = await new Promise((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        { folder: 'product_catalog' },
-        (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
-        }
-      );
-      uploadStream.end(buffer);
-    });
+    // Upload to Cloudinary only if an image is provided
+    if (imageFile && imageFile.size > 0) {
+      const bytes = await imageFile.arrayBuffer();
+      const buffer = Buffer.from(bytes);
 
-    const imageUrl = uploadResult.secure_url;
+      const uploadResult = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: 'product_catalog' },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          }
+        );
+        uploadStream.end(buffer);
+      });
+
+      imageUrl = uploadResult.secure_url;
+    }
     const uniqueSuffix = Date.now().toString();
 
     // Add new product to Firestore
