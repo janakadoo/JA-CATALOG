@@ -230,16 +230,18 @@ export default function Home() {
                 <div style={{ padding: "1.5rem", display: "flex", flexDirection: "column", flexGrow: 1 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.5rem" }}>
                     <h3 style={{ fontSize: "1.25rem", fontWeight: "600", margin: 0 }}>{product.name}</h3>
-                    <span style={{ 
-                      backgroundColor: "var(--primary)", 
-                      color: "#fff", 
-                      padding: "0.25rem 0.75rem", 
-                      borderRadius: "50px", 
-                      fontSize: "0.875rem",
-                      fontWeight: "bold"
-                    }}>
-                      {product.price || "N/A"}
-                    </span>
+                    {product.price && (
+                      <span style={{ 
+                        backgroundColor: "var(--primary)", 
+                        color: "#fff", 
+                        padding: "0.25rem 0.75rem", 
+                        borderRadius: "50px", 
+                        fontSize: "0.875rem",
+                        fontWeight: "bold"
+                      }}>
+                        {product.price}
+                      </span>
+                    )}
                   </div>
                   
                   <div style={{ marginBottom: "1rem", display: "flex", flexDirection: "column", gap: "0.25rem" }}>
