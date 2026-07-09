@@ -553,7 +553,7 @@ export default function AdminPage() {
 
           <div>
             <h3 style={{ fontSize: "1.1rem", marginBottom: "1rem" }}>Existing Categories</h3>
-            <div style={{ display: "flex", flexDirection: "column", gap: "1rem", maxHeight: "400px", overflowY: "auto", paddingRight: "0.5rem" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
               {categories.map((cat, i) => (
                 <div key={i} style={{ backgroundColor: "var(--surface)", border: "1px solid var(--border)", borderRadius: "var(--radius)", overflow: "hidden" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.75rem 1rem", backgroundColor: "rgba(0,0,0,0.02)", borderBottom: cat.subCategories.length > 0 ? "1px solid var(--border)" : "none" }}>
