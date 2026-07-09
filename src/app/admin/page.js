@@ -26,6 +26,7 @@ export default function AdminPage() {
   // Image upload for existing product
   const [uploadingImageFor, setUploadingImageFor] = useState(null); // product id
   const [imageFile, setImageFile] = useState(null);
+  const [modalImage, setModalImage] = useState(null);
   const [imageUploadMsg, setImageUploadMsg] = useState("");
 
   // Active tab
@@ -374,13 +375,18 @@ export default function AdminPage() {
               No products found. Add some from the "Add Product" tab.
             </div>
           ) : (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "1.25rem" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: "1.25rem" }}>
               {products.map((product) => (
                 <div key={product.id} className="card" style={{ padding: "1.25rem", position: "relative" }}>
                   {/* Product Image */}
                   <div style={{ width: "100%", height: "160px", backgroundColor: "var(--surface)", borderRadius: "var(--radius)", marginBottom: "1rem", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     {product.imageUrl ? (
-                      <img src={product.imageUrl} alt={product.name} style={{ width: "100%", height: "100%", objectFit: "contain", padding: "1rem" }} />
+                      <img 
+                        src={product.imageUrl} 
+                        alt={product.name} 
+                        style={{ width: "100%", height: "100%", objectFit: "contain", padding: "1rem", cursor: "pointer" }} 
+                        onClick={() => setModalImage(product.imageUrl)}
+                      />
                     ) : (
                       <span style={{ opacity: 0.3, fontSize: "2.5rem" }}>📷</span>
                     )}
@@ -536,6 +542,54 @@ export default function AdminPage() {
               )}
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Image Modal */}
+      {modalImage && (
+        <div 
+          onClick={() => setModalImage(null)}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.85)",
+            zIndex: 9999,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "1rem"
+          }}
+        >
+          <div style={{ width: "100%", display: "flex", justifyContent: "flex-end", maxWidth: "800px", paddingBottom: "10px" }}>
+            <button 
+              onClick={() => setModalImage(null)}
+              style={{
+                background: "none",
+                border: "none",
+                color: "white",
+                fontSize: "2rem",
+                cursor: "pointer"
+              }}
+            >
+              &times;
+            </button>
+          </div>
+          <img 
+            src={modalImage} 
+            alt="Full size" 
+            style={{
+              maxWidth: "100%",
+              maxHeight: "80vh",
+              objectFit: "contain",
+              borderRadius: "8px",
+              boxShadow: "0 10px 25px rgba(0,0,0,0.5)"
+            }} 
+            onClick={(e) => e.stopPropagation()}
+          />
         </div>
       )}
     </div>

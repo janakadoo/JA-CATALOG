@@ -13,6 +13,7 @@ export default function Home() {
   const [selectedSubCategory, setSelectedSubCategory] = useState("All");
   
   const [loading, setLoading] = useState(true);
+  const [modalImage, setModalImage] = useState(null);
 
   useEffect(() => {
     fetchProducts();
@@ -180,8 +181,8 @@ export default function Home() {
         ) : filteredProducts.length > 0 ? (
           <div style={{ 
             display: "grid", 
-            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", 
-            gap: "2rem" 
+            gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", 
+            gap: "1.5rem" 
           }}>
             {filteredProducts.map(product => (
               <div key={product.id} className="card" style={{ display: "flex", flexDirection: "column", height: "100%" }}>
@@ -204,8 +205,10 @@ export default function Home() {
                         height: "100%", 
                         objectFit: "contain",
                         padding: "1rem",
-                        transition: "transform 0.5s ease"
+                        transition: "transform 0.3s ease",
+                        cursor: "pointer"
                       }}
+                      onClick={() => setModalImage(product.imageUrl)}
                       onMouseOver={e => e.currentTarget.style.transform = "scale(1.05)"}
                       onMouseOut={e => e.currentTarget.style.transform = "scale(1)"}
                     />
@@ -272,6 +275,54 @@ export default function Home() {
           </div>
         )}
       </main>
+
+      {/* Image Modal */}
+      {modalImage && (
+        <div 
+          onClick={() => setModalImage(null)}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.85)",
+            zIndex: 9999,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "1rem"
+          }}
+        >
+          <div style={{ width: "100%", display: "flex", justifyContent: "flex-end", maxWidth: "800px", paddingBottom: "10px" }}>
+            <button 
+              onClick={() => setModalImage(null)}
+              style={{
+                background: "none",
+                border: "none",
+                color: "white",
+                fontSize: "2rem",
+                cursor: "pointer"
+              }}
+            >
+              &times;
+            </button>
+          </div>
+          <img 
+            src={modalImage} 
+            alt="Full size" 
+            style={{
+              maxWidth: "100%",
+              maxHeight: "80vh",
+              objectFit: "contain",
+              borderRadius: "8px",
+              boxShadow: "0 10px 25px rgba(0,0,0,0.5)"
+            }} 
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 }
