@@ -75,6 +75,7 @@ export default function Home() {
             <img src="/logo-round.jpg" alt="JA Logo" style={{ height: "40px", width: "40px", borderRadius: "50%", objectFit: "cover" }} />
             <img src="/logo-rect.jpg" alt="MCC Logo" style={{ height: "35px", width: "auto", objectFit: "contain" }} />
             <h1 style={{ fontSize: "1.25rem", fontWeight: "800", color: "var(--primary)", margin: 0, textTransform: "uppercase" }}>MCC Product Catalog</h1>
+          </div>
           <Link href="/admin" style={{ fontSize: "0.875rem", color: "var(--foreground)", opacity: 0.6, textDecoration: "none" }}>
             Admin Login
           </Link>
