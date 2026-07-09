@@ -202,7 +202,8 @@ export default function Home() {
                         left: 0, 
                         width: "100%", 
                         height: "100%", 
-                        objectFit: "cover",
+                        objectFit: "contain",
+                        padding: "1rem",
                         transition: "transform 0.5s ease"
                       }}
                       onMouseOver={e => e.currentTarget.style.transform = "scale(1.05)"}

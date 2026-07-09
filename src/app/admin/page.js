@@ -380,7 +380,7 @@ export default function AdminPage() {
                   {/* Product Image */}
                   <div style={{ width: "100%", height: "160px", backgroundColor: "var(--surface)", borderRadius: "var(--radius)", marginBottom: "1rem", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     {product.imageUrl ? (
-                      <img src={product.imageUrl} alt={product.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                      <img src={product.imageUrl} alt={product.name} style={{ width: "100%", height: "100%", objectFit: "contain", padding: "1rem" }} />
                     ) : (
                       <span style={{ opacity: 0.3, fontSize: "2.5rem" }}>📷</span>
                     )}
