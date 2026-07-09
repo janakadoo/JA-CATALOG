@@ -189,21 +189,36 @@ export default function Home() {
                   backgroundColor: "#f1f5f9",
                   overflow: "hidden"
                 }}>
-                  <img 
-                    src={product.imageUrl} 
-                    alt={product.name}
-                    style={{ 
-                      position: "absolute", 
-                      top: 0, 
-                      left: 0, 
-                      width: "100%", 
-                      height: "100%", 
-                      objectFit: "cover",
-                      transition: "transform 0.5s ease"
-                    }}
-                    onMouseOver={e => e.currentTarget.style.transform = "scale(1.05)"}
-                    onMouseOut={e => e.currentTarget.style.transform = "scale(1)"}
-                  />
+                  {product.imageUrl ? (
+                    <img 
+                      src={product.imageUrl} 
+                      alt={product.name}
+                      style={{ 
+                        position: "absolute", 
+                        top: 0, 
+                        left: 0, 
+                        width: "100%", 
+                        height: "100%", 
+                        objectFit: "cover",
+                        transition: "transform 0.5s ease"
+                      }}
+                      onMouseOver={e => e.currentTarget.style.transform = "scale(1.05)"}
+                      onMouseOut={e => e.currentTarget.style.transform = "scale(1)"}
+                    />
+                  ) : (
+                    <div style={{
+                      position: "absolute",
+                      top: 0, left: 0, width: "100%", height: "100%",
+                      display: "flex", flexDirection: "column",
+                      alignItems: "center", justifyContent: "center",
+                      backgroundColor: "var(--surface)",
+                      color: "var(--foreground)",
+                      opacity: 0.4
+                    }}>
+                      <span style={{ fontSize: "3rem" }}>📷</span>
+                      <span style={{ fontSize: "0.75rem", marginTop: "0.5rem" }}>No image yet</span>
+                    </div>
+                  )}
                 </div>
                 <div style={{ padding: "1.5rem", display: "flex", flexDirection: "column", flexGrow: 1 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.5rem" }}>
