@@ -1,62 +1,200 @@
 [
   {
-    "name": "🏍️ Engine Parts",
-    "subCategories": ["Piston", "Piston Rings", "Cylinder Kit", "Crankshaft", "Camshaft", "Valves", "Timing Chain", "Gaskets", "Oil Pump", "Clutch Assembly"]
-  },
-  {
-    "name": "⚙️ Transmission Parts",
-    "subCategories": ["Clutch Plates", "Clutch Cable", "Gear Set", "Gear Shift Lever", "Sprocket", "Chain", "Chain Tensioner"]
-  },
-  {
-    "name": "🛞 Wheels & Tyres",
-    "subCategories": ["Tyres", "Tubes", "Alloy Wheels", "Rims", "Wheel Hub", "Wheel Bearings", "Spokes", "Rim Tape"]
-  },
-  {
-    "name": "🛑 Brake System",
-    "subCategories": ["Brake Shoes", "Brake Pads", "Brake Disc", "Brake Drum", "Brake Caliper", "Brake Master Cylinder", "Brake Cable", "Brake Hose", "Brake Fluid Reservoir"]
-  },
-  {
-    "name": "🛠️ Suspension & Steering",
-    "subCategories": ["Front Fork", "Rear Shock Absorber", "Steering Cone Set", "Triple Tree", "Swing Arm", "Bushes"]
-  },
-  {
-    "name": "⚡ Electrical Parts",
-    "subCategories": ["Battery", "CDI Unit", "ECU", "Ignition Coil", "Spark Plug", "Magnet Coil (Stator)", "Regulator Rectifier", "Starter Motor", "Starter Relay", "Horn", "Fuse", "Wiring Harness"]
-  },
-  {
-    "name": "💡 Lighting",
-    "subCategories": ["Headlight", "Tail Light", "Indicator Light", "Bulbs", "LED Lights", "Number Plate Light"]
-  },
-  {
-    "name": "🪑 Body Parts",
-    "subCategories": ["Fuel Tank", "Side Covers", "Front Fender", "Rear Fender", "Mudguard", "Seat", "Side Panels", "Chain Cover"]
-  },
-  {
-    "name": "🏍️ Handle & Controls",
-    "subCategories": ["Handlebar", "Hand Grips", "Mirrors", "Throttle Cable", "Clutch Lever", "Brake Lever", "Switch Assembly", "Accelerator Grip"]
+    "name": "🏍️ Cables & Controls",
+    "subCategories": [
+      "ACCELERATOR MOUNTING",
+      "BUTTONS",
+      "CABLE CHOKE",
+      "CABLE SPEEDO METER",
+      "CABLE THROTTLE",
+      "HANDLE BAR",
+      "HANDLE GRIP",
+      "HANDLE GRIP COVER",
+      "HANDLE SWITCH",
+      "KICK PEDAL"
+    ]
   },
   {
     "name": "⛽ Fuel System",
-    "subCategories": ["Carburetor", "Fuel Injector", "Fuel Pump", "Fuel Filter", "Fuel Cock", "Fuel Hose", "Air Filter", "Air Filter Box"]
+    "subCategories": [
+      "AIR FILTER",
+      "AIR HORSE",
+      "CARBURATOR REPAIR KIT",
+      "FLOATER NEEDLE",
+      "FUEL COCK",
+      "PETROL TUBE"
+    ]
   },
   {
-    "name": "🌬️ Exhaust System",
-    "subCategories": ["Exhaust Pipe", "Silencer", "Muffler", "Exhaust Gasket", "Heat Shield"]
+    "name": "🛞 Wheels & Hubs",
+    "subCategories": [
+      "AXEL FOUNDATION",
+      "AXEL FRONT",
+      "AXEL REAR",
+      "AXEL SLEEVE/HALF AXEL",
+      "BEARING",
+      "FREE WEEL",
+      "HUB DRIVE",
+      "HUB FRONT",
+      "HUB REAR",
+      "RIM WHEEL",
+      "SPEEDO METER WORM ASSY",
+      "SPEEDO METER WORM SET",
+      "SPOKES"
+    ]
   },
   {
-    "name": "🧴 Lubrication & Fluids",
-    "subCategories": ["Engine Oil", "Gear Oil", "Brake Fluid", "Coolant (for liquid-cooled motorcycles)"]
+    "name": "🛑 Brakes",
+    "subCategories": [
+      "BRAKE CAM SET",
+      "BRAKE LEVER",
+      "BRAKE LIGHT SWITCH FRONT",
+      "BRAKE LIGHT SWITCH REAR",
+      "BRAKE PADEL",
+      "BRAKE PEDAL SPRING",
+      "BRAKE ROD",
+      "BRAKE SHOE",
+      "CABLE BRAKE"
+    ]
   },
   {
-    "name": "🔩 Fasteners & Hardware",
-    "subCategories": ["Bolts", "Nuts", "Washers", "Clips", "Cotter Pins", "Rubber Mounts"]
+    "name": "⚡ Electrical & Lights",
+    "subCategories": [
+      "BULB BRAKE LIGHT",
+      "BULB HEAD",
+      "BULB METER",
+      "C.D.I. UNIT",
+      "FLASHER",
+      "HEAD LIGHT ASSY",
+      "HEAD LIGHT COWL",
+      "HEAD LIGHT COWL WITH VISOR",
+      "HEAD LIGHT DOOM",
+      "HEAD LIGHT- KAN SET",
+      "HEAD LIGHT VISOR",
+      "IGNITION COIL",
+      "MAIN SWITCH",
+      "PLUG CAP",
+      "REGULATOR RECTIFIRE",
+      "SIGNAL LIGHT",
+      "SIGNAL LIGHT FITTING CLAMP",
+      "SIGNAL LIGHT LEFT",
+      "SPARK PLUG",
+      "STARTER BRANDIX  ( IN VENDOR QU",
+      "STARTER RELAY",
+      "TAIL LIGHT ASSEMBLY"
+    ]
   },
   {
-    "name": "🧰 Accessories",
-    "subCategories": ["Crash Guard", "Carrier", "Top Box", "Mobile Holder", "Seat Cover", "Leg Guard", "Windshield", "Footrest"]
+    "name": "⚙️ Transmission & Clutch",
+    "subCategories": [
+      "C&B LEVER",
+      "CABLE CLUTCH",
+      "CHAIN ADJUSTER",
+      "CHAIN ADJUSTER CAP",
+      "Chain case",
+      "CHAIN COVER",
+      "CHAIN LOCK",
+      "CHAIN SPROCKET SET",
+      "CLUTCH LEVER",
+      "CLUTCH PACKING",
+      "CLUTCH PLATE",
+      "CLUTCH PULLY",
+      "CLUTCH ROLLER KIT",
+      "CLUTCH ROLLER SET",
+      "CLUTCH SHOE",
+      "DRIVE CHAIN",
+      "FRONT SPROCKET",
+      "GEAR PADEL",
+      "GEAR SHAFT",
+      "PACE DRIVE",
+      "PRESSURE PLATE",
+      "SPROCKET REAR"
+    ]
   },
   {
-    "name": "🔧 Service & Maintenance Items",
-    "subCategories": ["Oil Filter", "Air Filter", "Fuel Filter", "Spark Plug", "Chain Lubricant", "Cleaning Products", "Tool Kit"]
+    "name": "🏍️ Engine & Exhaust",
+    "subCategories": [
+      "CAM SHAFT",
+      "CARBON BRUSH",
+      "CARBON PLATE ASSEMBLY",
+      "CONNECTING ROD KIT",
+      "CYLINDER KIT WITH PISTON",
+      "ENGINE VALVE",
+      "GASKET FULL",
+      "GASKET TOP",
+      "HALF GASKET",
+      "KICK SHAFT",
+      "KICK SPRING",
+      "KIT CRANK CASE",
+      "MAGNET GASKET",
+      "OIL NUT",
+      "OIL SEAL",
+      "OIL SEAL KIT",
+      "PISTON KIT",
+      "PISTON RINGS",
+      "ROCKER ARM",
+      "TIMING CHAIN",
+      "V BELT",
+      "VALVE RUBBER",
+      "VARIATOR"
+    ]
+  },
+  {
+    "name": "🛠️ Suspension & Steering",
+    "subCategories": [
+      "CUP CONE SET",
+      "DAMPER RUBBER",
+      "FORK BOOT RUBBER",
+      "FORK LINK BUSH KIT",
+      "FORK TUBE",
+      "HANDLE CUP SET",
+      "OIL SEAL FORK",
+      "REAR SHOCK ABSORBER BUSH",
+      "SHOCK ABSORBER",
+      "SWIM ARM BUSH",
+      "SWING ARMS"
+    ]
+  },
+  {
+    "name": "🪑 Body & Panels",
+    "subCategories": [
+      "FLOOR SIDE PANEL",
+      "FRONT MUDGUARD",
+      "FRONT MUDGUARD BRACKET",
+      "FRONT NOSE PANEL",
+      "HEAD RUBBER",
+      "LOWER PANNEL",
+      "MIDDLE NOSE",
+      "MUDGUARD FRONT",
+      "REAR MUDGAURD",
+      "SEAT COVERS",
+      "SIDE PANEL",
+      "TAIL PANEL",
+      "TANK CAP",
+      "TANK COWL",
+      "TEAL PANEL",
+      "TEAL SIDE COVER",
+      "V PANEL"
+    ]
+  },
+  {
+    "name": "🧰 Accessories & Hardware",
+    "subCategories": [
+      "FOOT REST",
+      "FOOT REST FRONT(ASSEMBLY)",
+      "FOOT REST REAR(ASSEMBLY)",
+      "FOOTREST ROD",
+      "GREEN BUSH",
+      "MAIN STAND SPRING",
+      "MAIN STAND WITH SPRING &PIN",
+      "NUT BOLT",
+      "OIL FILTER",
+      "PATTI",
+      "SIDE MIRROR",
+      "SIDE STAND",
+      "SPRING SIDE STAND",
+      "TOOLS",
+      "VISOR BRACKET"
+    ]
   }
 ]

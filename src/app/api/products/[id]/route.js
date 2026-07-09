@@ -13,7 +13,11 @@ cloudinary.config({
 // PATCH - update product (e.g., upload image to existing product)
 export async function PATCH(request, { params }) {
   try {
-    const { id } = params;
+    console.log('Raw params:', params);
+    const resolvedParams = await params;
+    console.log('Resolved params:', resolvedParams);
+    const { id } = resolvedParams;
+    console.log('ID extracted:', id);
     const formData = await request.formData();
 
     const imageFile = formData.get('image');
@@ -74,7 +78,7 @@ export async function PATCH(request, { params }) {
 // DELETE - remove a product
 export async function DELETE(request, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const productRef = doc(db, 'products', id);
     const productSnap = await getDoc(productRef);
 
