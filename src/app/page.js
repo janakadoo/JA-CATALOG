@@ -84,15 +84,17 @@ export default function Home() {
         top: 0,
         zIndex: 10
       }}>
-        <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <img src="/logo-round.jpg" alt="JA Logo" style={{ height: "35px", width: "35px", borderRadius: "50%", objectFit: "cover" }} />
-            <img src="/logo-rect.jpg" alt="MCC Logo" style={{ height: "30px", width: "auto", objectFit: "contain" }} />
-            <h1 style={{ fontSize: "1.1rem", fontWeight: "800", color: "var(--primary)", margin: 0, textTransform: "uppercase" }}>MCC Product Catalog</h1>
+        <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "0.5rem" }}>
+          <img src="/logo-round.jpg" alt="JA Logo" style={{ height: "45px", width: "45px", borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />
+          
+          <div style={{ flex: 1, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+            <h1 style={{ fontSize: "clamp(1rem, 4vw, 1.5rem)", fontWeight: "900", color: "var(--primary)", margin: 0, textTransform: "uppercase", lineHeight: 1.1 }}>MCC Product Catalog</h1>
+            <Link href="/admin" style={{ fontSize: "0.75rem", color: "var(--foreground)", opacity: 0.6, textDecoration: "none", marginTop: "2px" }}>
+              Admin Login
+            </Link>
           </div>
-          <Link href="/admin" style={{ fontSize: "0.8rem", color: "var(--foreground)", opacity: 0.6, textDecoration: "none" }}>
-            Admin Login
-          </Link>
+
+          <img src="/logo-rect.jpg" alt="MCC Logo" style={{ height: "40px", width: "auto", objectFit: "contain", flexShrink: 0 }} />
         </div>
       </header>
 
