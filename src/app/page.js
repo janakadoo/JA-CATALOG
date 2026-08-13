@@ -15,10 +15,22 @@ export default function Home() {
   
   const [loading, setLoading] = useState(true);
   const [modalImage, setModalImage] = useState(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
     fetchProducts();
     fetchCategories();
+    
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+    
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const fetchCategories = async () => {
@@ -394,6 +406,35 @@ export default function Home() {
             onClick={(e) => e.stopPropagation()}
           />
         </div>
+      )}
+      {/* Scroll to Top Button */}
+      {showScrollTop && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            backgroundColor: "var(--primary)",
+            color: "white",
+            border: "none",
+            borderRadius: "50%",
+            width: "50px",
+            height: "50px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
+            cursor: "pointer",
+            zIndex: 1000,
+            transition: "all 0.3s ease"
+          }}
+          aria-label="Scroll to top"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </button>
       )}
     </div>
   );
