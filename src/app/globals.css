@@ -111,3 +111,9 @@ input, textarea, select {
   transform: translateY(-4px);
   box-shadow: var(--shadow-hover);
 }
+
+@media (max-width: 640px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+}

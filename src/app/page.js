@@ -87,14 +87,16 @@ export default function Home() {
         <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "0.5rem" }}>
           <img src="/logo-round.jpg" alt="JA Logo" style={{ height: "45px", width: "45px", borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />
           
-          <div style={{ flex: 1, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-            <h1 style={{ fontSize: "clamp(1rem, 4vw, 1.5rem)", fontWeight: "900", color: "var(--primary)", margin: 0, textTransform: "uppercase", lineHeight: 1.1 }}>MCC Product Catalog</h1>
-            <Link href="/admin" style={{ fontSize: "0.75rem", color: "var(--foreground)", opacity: 0.6, textDecoration: "none", marginTop: "2px" }}>
+          <div style={{ flex: 1, textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <h1 style={{ fontSize: "clamp(1.2rem, 5vw, 1.8rem)", fontWeight: "900", color: "var(--primary)", margin: 0, textTransform: "uppercase", lineHeight: 1.1 }}>MCC Product Catalog</h1>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", flexShrink: 0 }}>
+            <img src="/logo-rect.jpg" alt="MCC Logo" style={{ height: "40px", width: "auto", objectFit: "contain" }} />
+            <Link href="/admin" className="hide-on-mobile" style={{ fontSize: "0.65rem", color: "var(--foreground)", opacity: 0.6, textDecoration: "none", marginTop: "2px" }}>
               Admin Login
             </Link>
           </div>
-
-          <img src="/logo-rect.jpg" alt="MCC Logo" style={{ height: "40px", width: "auto", objectFit: "contain", flexShrink: 0 }} />
         </div>
       </header>
 
