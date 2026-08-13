@@ -7,6 +7,7 @@ import Image from "next/image";
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
   
   const [categories, setCategories] = useState([]);
   const [selectedMainCategory, setSelectedMainCategory] = useState("All");
@@ -51,6 +52,7 @@ export default function Home() {
   const handleMainCategorySelect = (mainCat) => {
     setSelectedMainCategory(mainCat);
     setSelectedSubCategory("All"); // Reset sub category when main changes
+    setSearchQuery(""); // Clear search to fix category filtering
   };
 
   const filteredProducts = products.filter(product => {
@@ -92,15 +94,71 @@ export default function Home() {
 
         {/* Search and Filters */}
         <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", marginBottom: "3rem" }}>
-          <div style={{ display: "flex", gap: "1rem", maxWidth: "600px", margin: "0 auto", width: "100%" }}>
+          <div style={{ display: "flex", gap: "1rem", maxWidth: "600px", margin: "0 auto", width: "100%", position: "relative" }}>
             <input
               type="text"
               placeholder="Search products by name..."
               className="input-field"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setIsSearchFocused(true)}
+              onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
               style={{ flex: 1, padding: "1rem", fontSize: "1rem", borderRadius: "50px" }}
             />
+            
+            {/* Search Suggestions Dropdown */}
+            {isSearchFocused && searchQuery && (
+              <div style={{
+                position: "absolute",
+                top: "calc(100% + 0.5rem)",
+                left: 0,
+                right: 0,
+                backgroundColor: "var(--surface)",
+                border: "1px solid var(--border)",
+                borderRadius: "var(--radius)",
+                boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                zIndex: 50,
+                maxHeight: "300px",
+                overflowY: "auto",
+                display: "flex",
+                flexDirection: "column",
+              }}>
+                {products
+                  .filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                  .slice(0, 8)
+                  .map(product => (
+                    <button
+                      key={product.id}
+                      onClick={() => {
+                        setSearchQuery(product.name);
+                        setSelectedMainCategory("All");
+                        setSelectedSubCategory("All");
+                        setIsSearchFocused(false);
+                      }}
+                      style={{
+                        padding: "0.75rem 1rem",
+                        textAlign: "left",
+                        borderBottom: "1px solid var(--border)",
+                        backgroundColor: "transparent",
+                        cursor: "pointer",
+                        fontSize: "0.9rem",
+                        color: "var(--foreground)",
+                        transition: "background-color 0.2s"
+                      }}
+                      onMouseEnter={(e) => e.target.style.backgroundColor = "rgba(0,0,0,0.03)"}
+                      onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+                    >
+                      {product.name}
+                      <span style={{ display: "block", fontSize: "0.7rem", opacity: 0.6 }}>{product.category}</span>
+                    </button>
+                  ))}
+                {products.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && (
+                  <div style={{ padding: "1rem", textAlign: "center", opacity: 0.6, fontSize: "0.9rem" }}>
+                    No matching products found
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", justifyContent: "center" }}>
@@ -143,7 +201,7 @@ export default function Home() {
           {selectedMainCategory !== "All" && availableSubCategories.length > 0 && (
             <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", justifyContent: "center", marginTop: "0.5rem", padding: "1rem", backgroundColor: "rgba(0,0,0,0.02)", borderRadius: "var(--radius)" }}>
               <button
-                onClick={() => setSelectedSubCategory("All")}
+                onClick={() => { setSelectedSubCategory("All"); setSearchQuery(""); }}
                 style={{
                   padding: "0.3rem 1rem",
                   borderRadius: "50px",
@@ -160,7 +218,7 @@ export default function Home() {
               {availableSubCategories.map(sub => (
                 <button
                   key={sub}
-                  onClick={() => setSelectedSubCategory(sub)}
+                  onClick={() => { setSelectedSubCategory(sub); setSearchQuery(""); }}
                   style={{
                     padding: "0.3rem 1rem",
                     borderRadius: "50px",
