@@ -313,9 +313,9 @@ export default function Home() {
                     </div>
                   )}
                 </div>
-                <div style={{ padding: "1.5rem", display: "flex", flexDirection: "column", flexGrow: 1 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.5rem" }}>
-                    <h3 style={{ fontSize: "1.25rem", fontWeight: "600", margin: 0 }}>{product.name}</h3>
+                <div style={{ padding: "0.75rem", display: "flex", flexDirection: "column", flexGrow: 1 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.25rem" }}>
+                    <h3 style={{ fontSize: "1rem", fontWeight: "700", margin: 0, lineHeight: 1.2 }}>{product.name}</h3>
                     {product.price && (
                       <span style={{ 
                         backgroundColor: "var(--primary)", 
@@ -330,7 +330,7 @@ export default function Home() {
                     )}
                   </div>
                   
-                  <div style={{ marginBottom: "1rem", display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                  <div style={{ marginBottom: "0.5rem", display: "flex", flexDirection: "column", gap: "0.15rem" }}>
                     <span style={{ fontSize: "0.875rem", color: "var(--primary)", fontWeight: "500" }}>
                       {product.category}
                     </span>
