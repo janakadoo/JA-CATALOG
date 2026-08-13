@@ -66,7 +66,7 @@ export default function Home() {
     <div>
       <header style={{ 
         borderBottom: "1px solid var(--border)", 
-        padding: "0.5rem 0", 
+        padding: "0.25rem 0", 
         backgroundColor: "var(--surface)",
         position: "sticky",
         top: 0,
@@ -84,16 +84,16 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="container" style={{ padding: "1.5rem 1rem" }}>
-        <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
-          <h2 style={{ fontSize: "2rem", fontWeight: "800", marginBottom: "0.5rem" }}>Our Products</h2>
-          <p style={{ color: "var(--foreground)", opacity: 0.8, maxWidth: "600px", margin: "0 auto", fontSize: "0.9rem" }}>
+      <main className="container" style={{ padding: "1rem 0.5rem" }}>
+        <div style={{ textAlign: "center", marginBottom: "0.75rem" }}>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: "800", margin: "0 0 0.25rem 0" }}>Our Products</h2>
+          <p style={{ color: "var(--foreground)", opacity: 0.8, maxWidth: "600px", margin: "0 auto", fontSize: "0.8rem", lineHeight: 1.2 }}>
             Browse our exclusive collection. Find exactly what you're looking for using the search and filters below.
           </p>
         </div>
 
         {/* Search and Filters */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "1.5rem" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "1rem" }}>
           <div style={{ display: "flex", gap: "1rem", maxWidth: "600px", margin: "0 auto", width: "100%", position: "relative" }}>
             <input
               type="text"
