@@ -161,18 +161,22 @@ export default function Home() {
             )}
           </div>
 
-          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", justifyContent: "center" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
             <button
               onClick={() => handleMainCategorySelect("All")}
               style={{
-                padding: "0.5rem 1.5rem",
+                padding: "0.4rem 0.2rem",
                 borderRadius: "50px",
+                fontSize: "0.85rem",
                 border: `1px solid ${selectedMainCategory === "All" ? "var(--primary)" : "var(--border)"}`,
                 backgroundColor: selectedMainCategory === "All" ? "var(--primary)" : "var(--surface)",
                 color: selectedMainCategory === "All" ? "#fff" : "var(--foreground)",
                 fontWeight: "500",
                 transition: "all 0.2s ease",
-                boxShadow: selectedMainCategory === "All" ? "0 4px 6px rgba(37, 99, 235, 0.2)" : "none"
+                boxShadow: selectedMainCategory === "All" ? "0 4px 6px rgba(37, 99, 235, 0.2)" : "none",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis"
               }}
             >
               All Categories
@@ -182,14 +186,18 @@ export default function Home() {
                 key={category.name}
                 onClick={() => handleMainCategorySelect(category.name)}
                 style={{
-                  padding: "0.5rem 1.5rem",
+                  padding: "0.4rem 0.2rem",
                   borderRadius: "50px",
+                  fontSize: "0.85rem",
                   border: `1px solid ${selectedMainCategory === category.name ? "var(--primary)" : "var(--border)"}`,
                   backgroundColor: selectedMainCategory === category.name ? "var(--primary)" : "var(--surface)",
                   color: selectedMainCategory === category.name ? "#fff" : "var(--foreground)",
                   fontWeight: "500",
                   transition: "all 0.2s ease",
-                  boxShadow: selectedMainCategory === category.name ? "0 4px 6px rgba(37, 99, 235, 0.2)" : "none"
+                  boxShadow: selectedMainCategory === category.name ? "0 4px 6px rgba(37, 99, 235, 0.2)" : "none",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis"
                 }}
               >
                 {category.name}
