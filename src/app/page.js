@@ -66,34 +66,34 @@ export default function Home() {
     <div>
       <header style={{ 
         borderBottom: "1px solid var(--border)", 
-        padding: "1rem 0", 
+        padding: "0.5rem 0", 
         backgroundColor: "var(--surface)",
         position: "sticky",
         top: 0,
         zIndex: 10
       }}>
-        <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <img src="/logo-round.jpg" alt="JA Logo" style={{ height: "40px", width: "40px", borderRadius: "50%", objectFit: "cover" }} />
-            <img src="/logo-rect.jpg" alt="MCC Logo" style={{ height: "35px", width: "auto", objectFit: "contain" }} />
-            <h1 style={{ fontSize: "1.25rem", fontWeight: "800", color: "var(--primary)", margin: 0, textTransform: "uppercase" }}>MCC Product Catalog</h1>
+        <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <img src="/logo-round.jpg" alt="JA Logo" style={{ height: "35px", width: "35px", borderRadius: "50%", objectFit: "cover" }} />
+            <img src="/logo-rect.jpg" alt="MCC Logo" style={{ height: "30px", width: "auto", objectFit: "contain" }} />
+            <h1 style={{ fontSize: "1.1rem", fontWeight: "800", color: "var(--primary)", margin: 0, textTransform: "uppercase" }}>MCC Product Catalog</h1>
           </div>
-          <Link href="/admin" style={{ fontSize: "0.875rem", color: "var(--foreground)", opacity: 0.6, textDecoration: "none" }}>
+          <Link href="/admin" style={{ fontSize: "0.8rem", color: "var(--foreground)", opacity: 0.6, textDecoration: "none" }}>
             Admin Login
           </Link>
         </div>
       </header>
 
-      <main className="container" style={{ padding: "3rem 1.5rem" }}>
-        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <h2 style={{ fontSize: "2.5rem", fontWeight: "800", marginBottom: "1rem" }}>Our Products</h2>
-          <p style={{ color: "var(--foreground)", opacity: 0.8, maxWidth: "600px", margin: "0 auto" }}>
+      <main className="container" style={{ padding: "1.5rem 1rem" }}>
+        <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
+          <h2 style={{ fontSize: "2rem", fontWeight: "800", marginBottom: "0.5rem" }}>Our Products</h2>
+          <p style={{ color: "var(--foreground)", opacity: 0.8, maxWidth: "600px", margin: "0 auto", fontSize: "0.9rem" }}>
             Browse our exclusive collection. Find exactly what you're looking for using the search and filters below.
           </p>
         </div>
 
         {/* Search and Filters */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", marginBottom: "3rem" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "1.5rem" }}>
           <div style={{ display: "flex", gap: "1rem", maxWidth: "600px", margin: "0 auto", width: "100%", position: "relative" }}>
             <input
               type="text"
