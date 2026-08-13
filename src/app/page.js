@@ -271,12 +271,12 @@ export default function Home() {
             gap: "1.5rem" 
           }}>
             {filteredProducts.map(product => (
-              <div key={product.id} className="card" style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+              <div key={product.id} className="card" style={{ display: "flex", flexDirection: "column", height: "100%", backgroundColor: "var(--background)" }}>
                 <div style={{ 
                   position: "relative", 
                   width: "100%", 
                   paddingTop: "75%", 
-                  backgroundColor: "#f1f5f9",
+                  backgroundColor: "var(--background)",
                   overflow: "hidden"
                 }}>
                   {product.imageUrl ? (
